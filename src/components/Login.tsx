@@ -1,65 +1,79 @@
-import { useState } from "react";
-import "../assets/Login.css"
-import { removeWhitespace } from "../utils/stringUtils";
+import { type FormEvent, useState } from "react";
 import { login } from "../services/authService";
-import type { IApiResponse } from "../types/common";
-
 
 export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }) {
-
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
-        login({ username, password }).then((response: IApiResponse<string>) => {
+        setError(null);
+
+        if (!username || !password) {
+            setError("Username and password are required.");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            await tryLogin();
+        } catch (error) {
+            alert(error || "Login failed.");
+        } finally {
+            setLoading(false)
+        }
+
+        async function tryLogin() {
+            const response = await login({ username, password });
             if (response.success) {
-                localStorage.setItem('token', response.data!);
+                localStorage.setItem("token", response.data!);
                 onLoginSuccess();
-            } else {
-                alert(response.errorMessage || "Login failed.");
             }
-        }).catch((error) => {
-            alert(error.message);
-        });
-    }
+            else {
+                setError(response.errorMessage);
+            }
+        }
+    };
 
     return (
-        <div className="login-container">
-            <div className="login-box">
-                <h2>Login</h2>
-                <form className="login-form" onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Username</label>
+        <div className="container">
+            <div className="card">
+                <h1 className="title">Login</h1>
+                <p className="subtitle">Sign in to your account.</p>
+
+                {error && <div className="alert">{error}</div>}
+
+                <form onSubmit={handleSubmit} className="form">
+                    <label className="label">
+                        <span>Username</span>
                         <input
                             type="text"
-                            placeholder="Enter your username"
-                            onChange={(e) => {
-                                e.target.value = removeWhitespace(e.target.value);
-                                setUsername(e.target.value);
-                            }}
+                            className="input"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            placeholder="Username"
                         />
-                    </div>
+                    </label>
 
-                    <div className="form-group">
-                        <label>Password</label>
+                    <label className="label">
+                        <span>Password</span>
                         <input
                             type="password"
-                            placeholder="Enter your password"
+                            className="input"
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••"
                         />
-                    </div>
+                    </label>
 
-                    <button type="submit" className="login-button">
-                        Login
+                    <button type="submit" className="btn-primary" disabled={loading}>
+                        {loading ? "Signing in…" : "Sign in"}
                     </button>
                 </form>
-
-                <p className="signup-link">
-                    Don't have an account? <a href="#">Sign up</a>
-                </p>
             </div>
         </div>
     );
 }
-
