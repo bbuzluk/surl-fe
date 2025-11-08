@@ -2,7 +2,7 @@ import { type FormEvent, useState } from "react";
 import { useAuth } from "../commons/AuthContext";
 
 
-export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }) {
+export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
@@ -17,9 +17,7 @@ export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }
             setError("Username and password are required.");
             return;
         }
-
         setLoading(true);
-
         try {
             await login(username, password);
         } catch (error) {
@@ -27,8 +25,6 @@ export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }
         } finally {
             setLoading(false)
         }
-
-
     };
 
     return (

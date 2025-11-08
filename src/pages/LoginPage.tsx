@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react';
-import Login from '../components/Login';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../commons/AuthContext';
+import Login from '../components/Login';
 export default function LoginPage() {
-  const [loginSuccess, setLoginSuccess] = useState(false);
-
-  useEffect(() => {
-    localStorage.getItem('token') && setLoginSuccess(true);
-  }, []);
-
+  const { token } = useAuth();
   return (
-    loginSuccess ? (<Navigate to="/" replace />) : (<Login onLoginSuccess={() => setLoginSuccess(true)} />)
+    token ? <Navigate to="/" replace /> : <Login />
   );
 }
