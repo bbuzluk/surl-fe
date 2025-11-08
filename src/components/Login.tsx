@@ -1,11 +1,13 @@
 import { type FormEvent, useState } from "react";
-import { login } from "../services/authService";
+import { useAuth } from "../commons/AuthContext";
+
 
 export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const { login } = useAuth();
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -19,23 +21,14 @@ export default function Login({ onLoginSuccess }: { onLoginSuccess: () => void }
         setLoading(true);
 
         try {
-            await tryLogin();
+            await login(username, password);
         } catch (error) {
             alert(error || "Login failed.");
         } finally {
             setLoading(false)
         }
 
-        async function tryLogin() {
-            const response = await login({ username, password });
-            if (response.success) {
-                localStorage.setItem("token", response.data!);
-                onLoginSuccess();
-            }
-            else {
-                setError(response.errorMessage);
-            }
-        }
+
     };
 
     return (
