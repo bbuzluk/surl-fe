@@ -20,6 +20,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
       <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
