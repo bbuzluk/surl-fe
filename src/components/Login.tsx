@@ -61,6 +61,7 @@ export default function Login() {
                     <button type="submit" className="btn-primary" disabled={loading}>
                         {loading ? "Signing in…" : "Sign in"}
                     </button>
+                    <a style={{ display: "block", textAlign: "right" }} href="/create-account">Create Account</a>
                 </form>
             </div>
         </div>
