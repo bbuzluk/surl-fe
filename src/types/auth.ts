@@ -1,9 +1,9 @@
-export interface ILoginRequest {
+export interface ILoginData {
     username: string;
     password: string;
 }
 
-export interface ICreateUserRequest {
+export interface ICreateAccountData {
     username: string;
     email: string;
     password: string;

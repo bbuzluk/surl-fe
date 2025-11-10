@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import { api } from "../services/authService";
 import type { IApiResponse } from "../types/common";
+import { postLogin } from "../services/authService";
 type User = { username: string };
 type AuthState = {
   user: User | null;
@@ -27,16 +27,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-
-
-
-
   const login = async (username: string, password: string) => {
-    const res = await api.post<IApiResponse<string>>('/login', { username, password });
-
-    const response = res.data;
-    if (!response.success) throw new Error("Login failed");
-    const token = response.data ? response.data : "null";
+    const res = await postLogin({ username, password });
+    if (!res.success) throw new Error("Login failed");
+    const token = res.data ? res.data : "null";
     localStorage.setItem("token", token);
     localStorage.setItem("username", username);
     setToken(token);
