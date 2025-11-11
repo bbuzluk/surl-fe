@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from "react";
 import { postUser } from "../services/authService";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateAccountPage() {
   const [username, setUsername] = useState("");
@@ -8,6 +9,8 @@ export default function CreateAccountPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -31,10 +34,11 @@ export default function CreateAccountPage() {
     try {
       const res = await postUser({ username, email, password });
       if (!res.success) throw new Error("Failed creating account: " + res.errorMessage);
-      setSuccess("Account created successfully 🎉");
-      setUsername("");
-      setEmail("");
-      setPassword("");
+      setSuccess("Account created successfully! Redirecting to login…");
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (err: any) {
       setError(err.message);
     } finally {
