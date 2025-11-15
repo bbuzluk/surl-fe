@@ -21,7 +21,7 @@ export default function Login() {
         try {
             await login(username, password);
         } catch (error) {
-            alert(error || "Login failed.");
+            setError("Invalid username or password.");
         } finally {
             setLoading(false)
         }
