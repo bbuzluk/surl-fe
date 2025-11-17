@@ -1,5 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
-import type { IApiResponse } from "../types/common";
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { postLogin } from "../services/authService";
 type User = { username: string };
 type AuthState = {
