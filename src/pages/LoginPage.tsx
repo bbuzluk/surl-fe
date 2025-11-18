@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
   return (
     <AuthLayout
       title="Welcome Back"
-      subtitle="Sign in to your Short Url account"
+      subtitle="Sign in to your account"
     >
       <form onSubmit={handleSubmit} className="form">
 
@@ -71,7 +71,7 @@ const LoginPage: React.FC = () => {
 
       <p style={{ textAlign: 'center', marginTop: '16px', color: 'var(--muted)', fontSize: '14px' }}>
         Don't have an account?
-        <Link to="/create-account" style={{ color: 'var(--primary)', fontWeight: 500, marginLeft: 4 }}>
+        <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 500, marginLeft: 4 }}>
           Sign Up
         </Link>
       </p>

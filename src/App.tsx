@@ -4,7 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import { useAuth } from "./commons/AuthContext";
 import NotFoundPage from "./pages/NotFoundPage";
-import CreateAccountPage from "./pages/CreateAccountPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const PublicRoute = ({ children }: { children: JSX.Element }) => {
   const { token } = useAuth();
@@ -19,7 +19,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 export default function App() {
   return (
     <Routes>
-      <Route path="/create-account" element={<PublicRoute><CreateAccountPage /></PublicRoute>} />
+      <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
       <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
       <Route path="/" element={<PrivateRoute><HomePage /></PrivateRoute>} />
       <Route path="*" element={<NotFoundPage />} />

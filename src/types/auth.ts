@@ -3,7 +3,7 @@ export interface ILoginData {
     password: string;
 }
 
-export interface ICreateAccountData {
+export interface IRegisterData {
     username: string;
     email: string;
     password: string;
