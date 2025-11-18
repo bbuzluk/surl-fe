@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { postLogin } from "../services/authService";
+import type { ILoginData } from "../types/auth";
 type User = { username: string };
 type AuthState = {
   user: User | null;
@@ -7,7 +8,7 @@ type AuthState = {
 };
 
 type AuthContextType = AuthState & {
-  login: (username: string, password: string) => Promise<void>;
+  login: (loginData: ILoginData) => Promise<void>;
   logout: () => void;
 };
 
@@ -26,7 +27,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const login = async ({ username, password }: ILoginData) => {
     const res = await postLogin({ username, password });
     if (!res.success) throw new Error("Login failed");
     const token = res.data ? res.data : "null";

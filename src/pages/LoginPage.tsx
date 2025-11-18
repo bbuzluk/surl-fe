@@ -2,22 +2,27 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../commons/AuthContext';
 import AuthLayout from '../components/layout/AuthLayout';
+import { useForm } from '../hooks/useForm';
+import type { ILoginData } from '../types/auth';
 
 
 const LoginPage: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { formData, handleChange } = useForm<ILoginData>({
+    username: '',
+    password: '',
+  });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
     try {
-      await login(username, password);
+      await login(formData);
       navigate('/');
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed.");
@@ -40,8 +45,8 @@ const LoginPage: React.FC = () => {
           <input
             type="text"
             name="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={formData.username}
+            onChange={handleChange}
             className="input"
             placeholder="username"
             required
@@ -54,8 +59,8 @@ const LoginPage: React.FC = () => {
           <input
             type="password"
             name="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}
+            onChange={handleChange}
             className="input"
             placeholder="••••••••"
             required
