@@ -19,7 +19,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <div className="main-layout">
             <header className="navbar">
                 <div className="navbar-container">
-                    <Link to="/" className="navbar-brand">LinkPulse</Link>
+                    <Link to="/" className="navbar-brand">Short URL</Link>
 
                     <nav className="navbar-menu">
                         <span className="user-welcome">Hello, {user?.username}</span>
