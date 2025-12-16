@@ -1,9 +1,11 @@
 import { useAuth } from '../commons/AuthContext';
+import MainLayout from '../components/layout/MainLayout';
 
 export default function HomePage() {
   const { user, logout } = useAuth();
 
   return (
+    <MainLayout>
     <div className="container">
       <div className="card">
         <h1 className="title">Welcome, {user?.username}</h1>
@@ -28,6 +30,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-    </div>
+    </div></MainLayout>
   );
 }
