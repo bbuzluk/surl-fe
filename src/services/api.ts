@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useAuth } from '../commons/AuthContext';
 const API_URL = 'http://localhost:8080/api/v1';
 
 const api = axios.create({
@@ -11,7 +10,7 @@ const api = axios.create({
 
 api.interceptors.request.use(
     (config) => {
-        const { token } = useAuth();
+        const token = localStorage.getItem("token");
         if (token && config.headers) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
